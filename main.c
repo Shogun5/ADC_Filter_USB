@@ -76,13 +76,13 @@ float outputSpeed[ArraySize-1];
 char TransmitBuffer[TRANSMIT_BUFFER_SIZE];
 uint8 FlagADC; 
 uint8 Ch;
-int16 rDistance[cArraySize];
+int16 realWorldValue[cArraySize];
 double fit[5]={588.3384,-1.5302,0.0020826,-0.0000013075,0.0000000002883334};
 union
 {
     int16 cD16[cArraySize];
     uint8 cD8[cArraySize*2];
-}cDistance;
+}measuredValue;
 /*******************************************************************************
 * Function Name: main
 ********************************************************************************
@@ -187,8 +187,6 @@ CY_ISR(ADCisr)
 void main()
 {
 
-
-
     uint8 k=0,i;
     int e;
     /* Variable used to send emulated data */
@@ -231,14 +229,14 @@ void main()
     
     for(i=0;i<cArraySize;i++)
     {
-        rDistance[i]=i*5+100;   
+        realWorldValue[i]=i*5+100;   
     }
     
     EEPROM_Start();
     EEPROM_UpdateTemperature();
     for(e=0;e<cArraySize*2;e++)
     {
-        cDistance.cD8[e]=EEPROM_ReadByte(e);
+        measuredValue.cD8[e]=EEPROM_ReadByte(e);
     }
     EEPROM_Stop();
 
@@ -253,7 +251,7 @@ void main()
 
         if(Help)
         {
-                //sprintf(TransmitBuffer, "cData:%d cm %d mV \r\n",rDistance[i], cDistance.cD16[i]);
+                //sprintf(TransmitBuffer, "cData:%d cm %d mV \r\n",realWorldValue[i], measuredValue.cD16[i]);
                 UART_1_PutString("C: Calibration\r\n");
                 UART_1_PutString("N: next calibration\r\n");
                 UART_1_PutString("Q: quit calibration\r\n");
@@ -269,7 +267,7 @@ void main()
         {
             for(i=0;i<cArraySize;i++)
             {
-                sprintf(TransmitBuffer, "%5dcm %5dmV\r\n",rDistance[i], cDistance.cD16[i]);
+                sprintf(TransmitBuffer, "%5dcm %5dmV\r\n",realWorldValue[i], measuredValue.cD16[i]);
                 UART_1_PutString(TransmitBuffer);
             }
             PrintEEPROM = FALSE;
@@ -282,7 +280,7 @@ void main()
             {
                 if (CaliDisplay)
                 {
-                    sprintf(TransmitBuffer, "move to distance %d cm,and press n \r\n", rDistance[d]);
+                    sprintf(TransmitBuffer, "move to distance %d cm,and press n \r\n", realWorldValue[d]);
                     CaliDisplay = FALSE;
                     UART_1_PutString(TransmitBuffer);
                     LCD_Position(0,0);
@@ -294,9 +292,9 @@ void main()
                 {
                     NextCalibrate = FALSE;
                     CaliDisplay = TRUE;
-                    cDistance.cD16[d]=Output;
+                    measuredValue.cD16[d]=Output;
                     
-                    sprintf(TransmitBuffer, "distance %d cm, Voltage: %d mV \r\n", rDistance[d],cDistance.cD16[d] );
+                    sprintf(TransmitBuffer, "distance %d cm, Voltage: %d mV \r\n", realWorldValue[d],measuredValue.cD16[d] );
                     UART_1_PutString(TransmitBuffer);
                     LCD_Position(0,0);
                     LCD_PrintString(TransmitBuffer);
@@ -309,7 +307,7 @@ void main()
                     EEPROM_UpdateTemperature();
                     for(e=0;e<cArraySize*2;e++)
                     {                        
-                        EEPROM_WriteByte(cDistance.cD8[e],e);
+                        EEPROM_WriteByte(measuredValue.cD8[e],e);
                         CyDelay(20);
                     }
                     EEPROM_Stop();
