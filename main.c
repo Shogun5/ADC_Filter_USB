@@ -60,9 +60,6 @@
 
 uint8 ContinuouslySendData;
 uint8 SendSingleByte;
-uint8 SendEmulatedData;
-uint8 WalkingSpeedTest;
-uint8 WalkingSpeedTest2;
 uint8 NextCalibrate;
 uint8 Calibrate;
 uint8 Help;
@@ -143,14 +140,6 @@ CY_ISR(USB_ISR)
             case 'x':
                 ContinuouslySendData = FALSE;
                 break;
-            case 'E':
-            case 'e':
-                SendEmulatedData = TRUE;
-                break;
-            case 'W':
-            case 'w':
-                WalkingSpeedTest2 = TRUE;
-                break;
             case 'P':
             case 'p':
                 PrintEEPROM = TRUE;
@@ -167,16 +156,9 @@ CY_ISR(USB_ISR)
 }
 
 
-CY_ISR(MyISR)
-{
-    outputA[n]=Output;
-    Timer_ReadStatusRegister();
-    n++;
-}
-
 CY_ISR(buttonISR)
 {
-    WalkingSpeedTest2 = TRUE;
+    SendSingleByte = TRUE;
 }
 
 
@@ -210,11 +192,6 @@ void main()
     uint8 k=0,i;
     int e;
     /* Variable used to send emulated data */
-    uint8 EmulatedData;
-    
-
-
-    float32 sumY=0,sumX=0,sumX2=0,sumXY=0,wSpeed;
     /* Transmit Buffer */
     
     LCD_Start();
@@ -224,9 +201,8 @@ void main()
     /* Start the components */
     ADC_DelSig_1_Start();
     UART_1_Start();
-    isr_1_StartEx(MyISR);
-    isr_2_StartEx(ADCisr);
-    isr_3_StartEx(buttonISR);
+    isr_Filter_StartEx(ADCisr);
+    isr_Button_StartEx(buttonISR);
     isr_UART_StartEx(USB_ISR);
     CyGlobalIntEnable;
     Filter_Start();
@@ -237,19 +213,13 @@ void main()
     ContinuouslySendData = FALSE;
     PrintEEPROM = FALSE;
     SendSingleByte = FALSE;
-    SendEmulatedData = FALSE;
     Calibrate = FALSE;
     NextCalibrate = FALSE;
     CaliDisplay = FALSE;
     Help= FALSE;
-    EmulatedData = 0;
     FlagADC=0;
     n=0;
     d=0;
-    sumX=0;
-    sumY=0;
-    sumX2=0;
-    sumXY=0;
     t=0;
     
     /* Start the ADC conversion */

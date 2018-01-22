@@ -25,15 +25,8 @@
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Vin_aliases.h" value="HEADER;;;;;Vin" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Vin.c" value="SOURCE_C;CortexM3;;;;Vin" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Vin.h" value="HEADER;;;;;Vin" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\timer_clock.c" value="SOURCE_C;CortexM3;;;;timer_clock" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\timer_clock.h" value="HEADER;;;;;timer_clock" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Timer.c" value="SOURCE_C;CortexM3;;;;Timer" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Timer.h" value="HEADER;;;;;Timer" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Timer_PM.c" value="SOURCE_C;CortexM3;;;;Timer" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_1.c" value="SOURCE_C;CortexM3;;;;isr_1" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_1.h" value="HEADER;;;;;isr_1" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_2.c" value="SOURCE_C;CortexM3;;;;isr_2" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_2.h" value="HEADER;;;;;isr_2" />
+  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_Filter.c" value="SOURCE_C;CortexM3;;;;isr_Filter" />
+  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_Filter.h" value="HEADER;;;;;isr_Filter" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\EEPROM.c" value="SOURCE_C;CortexM3;;;;EEPROM" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\EEPROM.h" value="HEADER;;;;;EEPROM" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\UART_1.c" value="SOURCE_C;CortexM3;;;;UART_1" />
@@ -47,8 +40,8 @@
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Button_aliases.h" value="HEADER;;;;;Button" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Button.c" value="SOURCE_C;CortexM3;;;;Button" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Button.h" value="HEADER;;;;;Button" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_3.c" value="SOURCE_C;CortexM3;;;;isr_3" />
-  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_3.h" value="HEADER;;;;;isr_3" />
+  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_Button.c" value="SOURCE_C;CortexM3;;;;isr_Button" />
+  <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\isr_Button.h" value="HEADER;;;;;isr_Button" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Filter.c" value="SOURCE_C;CortexM3;;;;Filter" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Filter.h" value="HEADER;;;;;Filter" />
   <file name="D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\codegentemp\Filter_PM.c" value="SOURCE_C;CortexM3;;;;Filter" />
