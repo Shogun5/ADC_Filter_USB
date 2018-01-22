@@ -1,0 +1,7 @@
+D:\Shogun Files\PSoC_project\CE95277 ADC and UART\ADC_Filter_USB.cydsn\ADC_Filter_USB.cyprj|e48ec800-8b67-48e7-97d2-5e05c46f13c9
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|7d490b8c-86ef-4744-ad7c-fd6767711a8e
+C:\Users\kuan0\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|1e7b0a5b-e92b-4f63-b2f8-12e72e5ecd49
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|51c1b159-db92-4fbe-9b06-8e5d4d2d85ef
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|481a8b53-baf0-4774-a404-5aee22a00ab6
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|1d40cd2b-327a-433e-8ba9-69d2379e1da5
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|f56bb620-83f1-492e-b0d8-6fca692aaebe
