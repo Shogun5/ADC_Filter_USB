@@ -147,10 +147,6 @@ CY_ISR(USB_ISR)
             case 'e':
                 SendEmulatedData = TRUE;
                 break;
-//            case 'R':
-//            case 'r':
-//                WalkingSpeedTest = TRUE;
-//                break;
             case 'W':
             case 'w':
                 WalkingSpeedTest2 = TRUE;
@@ -185,66 +181,7 @@ CY_ISR(buttonISR)
 
 
 
-void Swap(int16* array, int16 x, int16 y)
-{
-    int16 temp;
-    temp= array[x];
-    array[x] = array[y];
-    array[y] = temp;
-}
-void BubbleSort(int16* array, int size)
-{
-    int16 i,j;
-    for(i = 0; i < size; i++)
-    {
-        for(j = 1; j < size - i; j++)
-        {
-            if(array[j] < array[j - 1])
-            {
-                Swap(array, j, j - 1);
-            }
-        }
-    }
-}
-  
 
-int16 Interpolate(int16* xs,int16* ys, double x)
-{
-    /* number of elements in the array */
-    static const int count = sizeof(xs)/sizeof(xs[0]);
-
-    int i;
-    double dx, dy;
-
-    if (x < xs[0]) {
-        /* x is less than the minimum element
-         * handle error here if you want */
-        return ys[0]; /* return minimum element */
-    }
-
-    if (x > xs[count-1]) {
-        return ys[count-1]; /* return maximum */
-    }
-
-    /* find i, such that xs[i] <= x < xs[i+1] */
-    for (i = 0; i < count-1; i++) {
-        if (xs[i+1] > x) {
-            break;
-        }
-    }
-
-    /* interpolate */
-    dx = xs[i+1] - xs[i];
-    dy = ys[i+1] - ys[i];
-    return (int16)ys[i] + (x - xs[i]) * dy / dx;
-}
-int16 CurveFitting(int16 A)
-{
-    int16 x;
-    A=A-1400;
-    x=(int16)(fit[0]+fit[1]*A+fit[2]*A*A+fit[3]*A*A*A+fit[4]*A*A*A*A);
-    return x;
-}
 CY_ISR(ADCisr)
 {
   //  Filter_ClearInterruptSource();
@@ -253,9 +190,8 @@ CY_ISR(ADCisr)
     Output = ADC_DelSig_1_CountsTo_mVolts(Filter_Read24(Filter_CHANNEL_A));
     if(SendSingleByte || ContinuouslySendData)
     {
-        /* Format ADC result for transmition */
-        OutputD= CurveFitting(Output);
-        sprintf(TransmitBuffer, "%5dcm %5dmV \r\n", OutputD, Output);
+
+        sprintf(TransmitBuffer, "%5dmV \r\n", Output);
         
         /* Send out the data */
         UART_1_PutString(TransmitBuffer);
@@ -276,16 +212,15 @@ void main()
     /* Variable used to send emulated data */
     uint8 EmulatedData;
     
-    /* Flags used to store transmit data commands */
+
 
     float32 sumY=0,sumX=0,sumX2=0,sumXY=0,wSpeed;
     /* Transmit Buffer */
     
     LCD_Start();
- //   LCD_DisplayOn();
     LCD_Position(0,1);
-//    LCD_PrintInt16(7);
     LCD_PrintString("Walking Speed");
+    
     /* Start the components */
     ADC_DelSig_1_Start();
     UART_1_Start();
@@ -296,15 +231,13 @@ void main()
     CyGlobalIntEnable;
     Filter_Start();
     Filter_SetCoherency(Filter_CHANNEL_A, Filter_KEY_HIGH);
- //   ADC_DelSig_1_SetCoherency(ADC_DelSig_1_COHER_HIGH);
     DMA_config();
+    
     /* Initialize Variables */
     ContinuouslySendData = FALSE;
     PrintEEPROM = FALSE;
     SendSingleByte = FALSE;
     SendEmulatedData = FALSE;
-    WalkingSpeedTest = FALSE;
-    WalkingSpeedTest2 = FALSE;
     Calibrate = FALSE;
     NextCalibrate = FALSE;
     CaliDisplay = FALSE;
@@ -351,7 +284,6 @@ void main()
         if(Help)
         {
                 //sprintf(TransmitBuffer, "cData:%d cm %d mV \r\n",rDistance[i], cDistance.cD16[i]);
-                UART_1_PutString("\r\nW: Start walking speed test\r\n");
                 UART_1_PutString("C: Calibration\r\n");
                 UART_1_PutString("N: next calibration\r\n");
                 UART_1_PutString("Q: quit calibration\r\n");
@@ -375,23 +307,6 @@ void main()
         /* Check to see if an ADC conversion has completed */
         if(FlagADC)
         {
-////           Output = ADC_DelSig_1_CountsTo_mVolts(Filter_Read24(Filter_CHANNEL_A));
-//           Output = Filter_Read16(Filter_CHANNEL_A);
-//            /* Send data based on last UART command */
-//            if(SendSingleByte || ContinuouslySendData)
-//            {
-//                /* Format ADC result for transmition */
-//                OutputD= CurveFitting(Output);
-//                sprintf(TransmitBuffer, "%5dcm %5dmV \r\n", OutputD, Output);
-//                
-//                /* Send out the data */
-//                UART_1_PutString(TransmitBuffer);
-//                LCD_Position(1,0);
-//                LCD_PrintString(TransmitBuffer);
-//                /* Reset the send once flag */
-//                SendSingleByte = FALSE;
-//            }
-            
             
             if(Calibrate)
             {
@@ -437,100 +352,8 @@ void main()
                     Quit = FALSE;
                 }                      
             }
-            
-//            if(SendEmulatedData)
-//            {
-//                /* Format ADC result for transmition */
-//                sprintf(TransmitBuffer, "Emulated Data: %x \r\n", EmulatedData);
-//                /* Send out the data */
-//                UART_1_PutString(TransmitBuffer);
-//                EmulatedData++;
-//                /* Reset the send once flag */
-//                SendEmulatedData = FALSE;   
-//            }
-//            
-//            if(WalkingSpeedTest)
-//            {
-//                WalkingSpeedTest = FALSE;
-//                Timer_Start();  
-//            }
-            
-            if(WalkingSpeedTest2)
-            {
-                LCD_ClearDisplay();
-                LCD_Position(0,0);
-                LCD_PrintString(" Walking Speed");
-                LCD_Position(1,2);
-                LCD_PrintString("Start Testing");
-                
-                Output= CurveFitting(Output);
-                if(Output>=100&& Output<=145 )
-                {
-                    t=0;
-                    b=0;
-                    sumY=0;
-                    sumX=0;
-                    sumX2=0;
-                    sumXY=0;
-                    
-                }
-                else if( Output>150 && Output <500)
-                {
-                    sumY+=Output;
-            		sumX+=sRate*t;
-            		sumX2+=sRate*t*sRate*t;
-            		sumXY+=sRate*t*Output;
-                    b++;
-//                    sprintf(TransmitBuffer, "%d %f", b,t);
-//                    UART_1_PutString(TransmitBuffer);
-                }
-                else if(Output >= 500 && Output <550)
-                {
-                    WalkingSpeedTest2= FALSE;
-                    wSpeed=(( b * sumXY)- (sumX * sumY))/((b * sumX2)-( sumX * sumX));
-                    sprintf(TransmitBuffer, "Walking Speed: %d cm/sec \r\n", (int16)wSpeed);
-                    UART_1_PutString(TransmitBuffer);
-                    LCD_ClearDisplay();
-                    LCD_Position(0,0);
-                    LCD_PrintString("Walking Speed:");
-                    LCD_Position(1,0);
-                    sprintf(TransmitBuffer, " %5d cm/sec", (int16)wSpeed);
-                    LCD_PrintString(TransmitBuffer);
-                }
-                else
-                {
 
-                }
-                
-                //WalkingSpeedTest2 = FALSE;
- 
-            }
-            
-         
-            if (n>=ArraySize)
-            {
-                n=0;
-                Timer_Stop();
-                for(i=0;i<ArraySize;i++)
-                {
-//                    outputD[i]=Interpolate(cDistance.cD16,rDistance,outputA[i]);
-                    outputD[i]= CurveFitting(outputA[i]);
-                }
-                for(k=0; k<ArraySize-1;k++) outputDif[k]=outputD[k+1]-outputD[k];
-                
-                sprintf(TransmitBuffer, "Voltage:%d mV,%d mV,%d mV,%d mV,%d mV,%d mV,%d mV,%d mV \r\n", outputA[0],outputA[1],outputA[2],outputA[3],outputA[4],outputA[5],outputA[6],outputA[7]);
-                UART_1_PutString(TransmitBuffer);
-                sprintf(TransmitBuffer, "Distance:%d cm,%d cm,%d cm,%d cm,%d cm,%d cm,%d cm,%d cm \r\n", outputD[0],outputD[1],outputD[2],outputD[3],outputD[4],outputD[5],outputD[6],outputD[7]);
-                UART_1_PutString(TransmitBuffer);
-                sprintf(TransmitBuffer, "Displace:%d cm,%d cm,%d cm,%d cm,%d cm,%d cm,%d cm \r\n", outputDif[0],outputDif[1],outputDif[2],outputDif[3],outputDif[4],outputDif[5],outputDif[6]);
-                UART_1_PutString(TransmitBuffer);
-                for(k=0; k<ArraySize-1;k++)outputSpeed[k]=(float)outputDif[k]*2/100;
-                //BubbleSort(outputDif,ArraySize-1);
-                sprintf(TransmitBuffer, "speed:%.3fm/s,%.3fm/s,%.3fm/s,%.3f m/s,%.3fm/s,%.3fm/s,%.3fm/s \r\n", outputSpeed[0],outputSpeed[1],outputSpeed[2],outputSpeed[3],outputSpeed[4],outputSpeed[5],outputSpeed[6]);
-                UART_1_PutString(TransmitBuffer);
-            }
             FlagADC=0;
-//            Filter_ClearInterruptSource();
         }
 
     }
